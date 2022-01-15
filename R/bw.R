@@ -83,7 +83,7 @@ BaumWelch = function(visible, t.mat, e.mat, initial_distribution, n.iter = 100){
     M = nrow(t.mat)
     K = ncol(e.mat)
     alpha = forward(visible, t.mat, e.mat)
-    beta = backward(visible,t.mat, e.mat)
+    beta = backwd(visible,t.mat, e.mat)
     xi = array(0, dim=c(M, M, N-1)) #3D matrix
     for(t in 1:N-1){
       denominator = ((alpha[t,] %*% t.mat) * e.mat[,visible[t+1]]) %*% matrix(beta[t+1,])
