@@ -77,10 +77,17 @@ backwd <- function (obs, transition, emission) {
 #' @param visible Vector of visible observations
 #' @param t.mat Transition Matrix
 #' @param e.mat Emission matrix
+#' @param states The names of the hidden states
+#' @param symbols The array of symbols that can be produced by the model
 #' @return list containing a: transition matrix, b: emission matrix, initial_distribution vector
 #' @export
-BaumWelch = function(visible, t.mat, e.mat, initial_distribution, n.iter = 100){
+BaumWelch = function(visible, t.mat, e.mat, initial_distribution,
+                     states,symbols,n.iter = 100){
+  A.diff = vector()
+  B.diff = vector()
   for(i in 1:n.iter){
+    A.old = t.mat
+    B.old = e.mat
     N = length(visible)
     M = nrow(t.mat)
     K = ncol(e.mat)
@@ -107,8 +114,14 @@ BaumWelch = function(visible, t.mat, e.mat, initial_distribution, n.iter = 100){
       }
     }
     e.mat = e.mat/rowSums(e.mat)
+    A.diff[i] = sum(abs(A.old - t.mat))
+    B.diff[i] = sum(abs(B.old - e.mat))
   }
-  return(list(a = t.mat, b = e.mat, initial_distribution = initial_distribution))
+  row.names(t.mat) <- colnames(t.mat) <- row.names(e.mat) <- states
+  colnames(e.mat) <- symbols
+  return(list(a = t.mat, b = e.mat,
+              initial_distribution = initial_distribution,
+              A.diff=A.diff, B.diff=B.diff))
 }
 
 
