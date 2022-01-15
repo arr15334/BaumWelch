@@ -60,13 +60,15 @@ forward <- function(obs, transition, E) {
 #' @return beta matrix of probabilities of model being in state s at time t
 #' @export
 backwd <- function (obs, transition, emission) {
-  N = length(obs)
+  Tn = length(obs)
   M = nrow(transition)
-  beta = matrix(1, N, M)
-  for (t in (N-1):1) { # start from the end
-    beta[t,] = (beta[t+1,] * emission[,obs[t+1]]) %*% transition
+  beta = matrix(1, Tn, M)
+
+  for(t in (Tn-1):1){
+    tmp = as.matrix(beta[t+1, ] * emission[, obs[t+1]])
+    beta[t, ] = t(transition %*% tmp)
   }
-  return (beta)
+  return(beta)
 }
 
 #' Baum-Welch algorithm
