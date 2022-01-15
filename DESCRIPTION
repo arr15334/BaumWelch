@@ -1,0 +1,14 @@
+Package: baumw
+Type: Package
+Title: Baum-Welch algorithm implementation for updating transition and emission matrices
+Version: 0.1.0
+Author: Rodrigo Arriaza
+Maintainer: Rodrigo Arriaza <arr15334@uvg.edu.gt>
+Description: Baum-Welch is a special case of Expectacion-Maximization Algorithm,
+    that uses the forward-backward algorithm for calculating and updating the transition and emission
+    matrices of a Hidden Markov Model for a given sequence where we only have access to the observable states
+    and not to the hidden states.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
